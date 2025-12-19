@@ -89,6 +89,11 @@ const config: Config = {
         },
         { to: '/blog', label: 'Research & Updates', position: 'left' },
         {
+          href: 'https://www.panaversity.com',
+          label: '🎓 Panaversity',
+          position: 'right',
+        },
+        {
           href: 'https://github.com/your-org/humanoid-robotics-book',
           label: 'GitHub',
           position: 'right',

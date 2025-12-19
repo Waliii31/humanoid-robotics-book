@@ -1,30 +1,317 @@
 /**
- * Any CSS included here will be global. The classic template
- * bundles Infima by default. Infima is a CSS framework designed to
- * work well for content-centric websites.
+ * Cyber-Industrial Theme for Physical AI & Humanoid Robotics
+ * Focusing on high-contrast, modern aesthetics with robotic blue and electric orange
  */
 
-/* You can override the default Infima variables here. */
+/* Import modern font family */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+/* ============================================
+   LIGHT MODE - Cyber-Industrial Theme
+   ============================================ */
 :root {
-  --ifm-color-primary: #2e8555;
-  --ifm-color-primary-dark: #29784c;
-  --ifm-color-primary-darker: #277148;
-  --ifm-color-primary-darkest: #205d3b;
-  --ifm-color-primary-light: #33925d;
-  --ifm-color-primary-lighter: #359962;
-  --ifm-color-primary-lightest: #3cad6e;
-  --ifm-code-font-size: 95%;
-  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+  /* Primary Color Palette - Robotic Blue */
+  --ifm-color-primary: #3e8bff;
+  --ifm-color-primary-dark: #2577f5;
+  --ifm-color-primary-darker: #1a6eef;
+  --ifm-color-primary-darkest: #1559c7;
+  --ifm-color-primary-light: #5c9fff;
+  --ifm-color-primary-lighter: #70a9ff;
+  --ifm-color-primary-lightest: #99c3ff;
+  
+  /* Secondary Color - Electric Orange */
+  --ifm-color-secondary: #ff6b35;
+  --ifm-color-secondary-dark: #ff5419;
+  --ifm-color-secondary-darker: #ff4709;
+  --ifm-color-secondary-darkest: #d93800;
+  --ifm-color-secondary-light: #ff8251;
+  --ifm-color-secondary-lighter: #ff8f61;
+  --ifm-color-secondary-lightest: #ffb397;
+  
+  /* Typography */
+  --ifm-font-family-base: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --ifm-font-family-monospace: 'JetBrains Mono', 'Courier New', monospace;
+  --ifm-heading-font-weight: 700;
+  --ifm-font-weight-bold: 600;
+  
+  /* Code Styling */
+  --ifm-code-font-size: 92%;
+  --ifm-code-background: rgba(62, 139, 255, 0.08);
+  --ifm-code-border-radius: 4px;
+  --ifm-code-padding-horizontal: 0.4rem;
+  --ifm-code-padding-vertical: 0.2rem;
+  
+  /* Backgrounds */
+  --ifm-background-color: #ffffff;
+  --ifm-background-surface-color: #f8f9fa;
+  
+  /* Syntax Highlighting */
+  --docusaurus-highlighted-code-line-bg: rgba(62, 139, 255, 0.15);
+  
+  /* Transitions */
+  --ifm-transition-fast: 150ms;
+  --ifm-transition-slow: 300ms;
+  
+  /* Borders */
+  --ifm-global-border-width: 1px;
+  --ifm-hr-border-color: rgba(62, 139, 255, 0.2);
 }
 
-/* For readability concerns, you should choose a lighter palette in dark mode. */
+/* ============================================
+   DARK MODE - Enhanced Cyber Theme
+   ============================================ */
 [data-theme='dark'] {
-  --ifm-color-primary: #25c2a0;
-  --ifm-color-primary-dark: #21af90;
-  --ifm-color-primary-darker: #1fa588;
-  --ifm-color-primary-darkest: #1a8870;
-  --ifm-color-primary-light: #29d5b0;
-  --ifm-color-primary-lighter: #32d8b4;
-  --ifm-color-primary-lightest: #4fddbf;
-  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
+  /* Primary Colors - Brighter for dark mode */
+  --ifm-color-primary: #5c9fff;
+  --ifm-color-primary-dark: #3e8bff;
+  --ifm-color-primary-darker: #2577f5;
+  --ifm-color-primary-darkest: #1a6eef;
+  --ifm-color-primary-light: #70a9ff;
+  --ifm-color-primary-lighter: #85b5ff;
+  --ifm-color-primary-lightest: #b3d4ff;
+  
+  /* Secondary Color - Vibrant Orange for dark mode */
+  --ifm-color-secondary: #ff8251;
+  --ifm-color-secondary-dark: #ff6b35;
+  --ifm-color-secondary-darker: #ff5419;
+  --ifm-color-secondary-darkest: #ff4709;
+  --ifm-color-secondary-light: #ff8f61;
+  --ifm-color-secondary-lighter: #ffa07a;
+  --ifm-color-secondary-lightest: #ffc4a8;
+  
+  /* Dark Backgrounds */
+  --ifm-background-color: #0a0e1a;
+  --ifm-background-surface-color: #131824;
+  --ifm-navbar-background-color: #0d1117;
+  --ifm-footer-background-color: #0d1117;
+  
+  /* Code in dark mode */
+  --ifm-code-background: rgba(92, 159, 255, 0.15);
+  
+  /* Syntax Highlighting */
+  --docusaurus-highlighted-code-line-bg: rgba(92, 159, 255, 0.2);
+  
+  /* Text Colors */
+  --ifm-font-color-base: #e6edf3;
+  --ifm-heading-color: #ffffff;
+  
+  /* Borders */
+  --ifm-hr-border-color: rgba(92, 159, 255, 0.3);
+  --ifm-toc-border-color: rgba(92, 159, 255, 0.2);
+}
+
+/* ============================================
+   CUSTOM ADMONITIONS - Technical Readout Style
+   ============================================ */
+
+/* Note Admonition - Console/Terminal Style */
+.theme-admonition.alert--info,
+.theme-admonition.alert--secondary {
+  border-left: 4px solid var(--ifm-color-primary);
+  background: linear-gradient(135deg, rgba(62, 139, 255, 0.08) 0%, rgba(62, 139, 255, 0.03) 100%);
+  border-radius: 6px;
+  font-family: var(--ifm-font-family-monospace);
+  box-shadow: 0 2px 8px rgba(62, 139, 255, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+[data-theme='dark'] .theme-admonition.alert--info,
+[data-theme='dark'] .theme-admonition.alert--secondary {
+  background: linear-gradient(135deg, rgba(92, 159, 255, 0.12) 0%, rgba(92, 159, 255, 0.05) 100%);
+  box-shadow: 0 4px 12px rgba(92, 159, 255, 0.15);
+}
+
+.theme-admonition.alert--info::before,
+.theme-admonition.alert--secondary::before {
+  content: '>';
+  position: absolute;
+  left: 12px;
+  top: 16px;
+  color: var(--ifm-color-primary);
+  font-weight: bold;
+  font-size: 1.2em;
+  font-family: var(--ifm-font-family-monospace);
+}
+
+/* Warning Admonition - Alert System Style */
+.theme-admonition.alert--warning {
+  border-left: 4px solid var(--ifm-color-secondary);
+  background: linear-gradient(135deg, rgba(255, 107, 53, 0.08) 0%, rgba(255, 107, 53, 0.03) 100%);
+  border-radius: 6px;
+  font-family: var(--ifm-font-family-monospace);
+  box-shadow: 0 2px 8px rgba(255, 107, 53, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+[data-theme='dark'] .theme-admonition.alert--warning {
+  background: linear-gradient(135deg, rgba(255, 130, 81, 0.12) 0%, rgba(255, 130, 81, 0.05) 100%);
+  box-shadow: 0 4px 12px rgba(255, 130, 81, 0.15);
+}
+
+.theme-admonition.alert--warning::before {
+  content: '⚠';
+  position: absolute;
+  left: 12px;
+  top: 16px;
+  color: var(--ifm-color-secondary);
+  font-weight: bold;
+  font-size: 1.2em;
+}
+
+/* Danger Admonition - Critical Alert */
+.theme-admonition.alert--danger {
+  border-left: 4px solid #ff4757;
+  background: linear-gradient(135deg, rgba(255, 71, 87, 0.08) 0%, rgba(255, 71, 87, 0.03) 100%);
+  border-radius: 6px;
+  font-family: var(--ifm-font-family-monospace);
+  box-shadow: 0 2px 8px rgba(255, 71, 87, 0.1);
+}
+
+[data-theme='dark'] .theme-admonition.alert--danger {
+  background: linear-gradient(135deg, rgba(255, 71, 87, 0.12) 0%, rgba(255, 71, 87, 0.05) 100%);
+  box-shadow: 0 4px 12px rgba(255, 71, 87, 0.15);
+}
+
+/* ============================================
+   GLOBAL ENHANCEMENTS
+   ============================================ */
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Enhanced code blocks */
+pre code {
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+/* Inline code styling */
+code {
+  background-color: var(--ifm-code-background);
+  border-radius: var(--ifm-code-border-radius);
+  padding: var(--ifm-code-padding-vertical) var(--ifm-code-padding-horizontal);
+  font-family: var(--ifm-font-family-monospace);
+  font-weight: 500;
+}
+
+/* Link hover effects */
+a {
+  transition: all var(--ifm-transition-fast) ease-in-out;
+}
+
+a:hover {
+  text-decoration: none;
+  opacity: 0.85;
+}
+
+/* Button enhancements */
+.button {
+  font-weight: 600;
+  border-radius: 8px;
+  transition: all var(--ifm-transition-fast) ease-in-out;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-size: 0.9rem;
+}
+
+.button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(62, 139, 255, 0.3);
+}
+
+.button--primary {
+  background: linear-gradient(135deg, var(--ifm-color-primary) 0%, var(--ifm-color-primary-dark) 100%);
+  border: none;
+}
+
+.button--secondary {
+  background: linear-gradient(135deg, var(--ifm-color-secondary) 0%, var(--ifm-color-secondary-dark) 100%);
+  border: none;
+  color: white;
+}
+
+/* Navbar enhancements */
+.navbar {
+  backdrop-filter: blur(10px);
+  background-color: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+[data-theme='dark'] .navbar {
+  background-color: rgba(13, 17, 23, 0.95);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Card-like containers */
+.card {
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  transition: all var(--ifm-transition-slow) ease-in-out;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(62, 139, 255, 0.15);
+}
+
+/* Table of Contents */
+.table-of-contents {
+  border-left: 2px solid var(--ifm-color-primary);
+  padding-left: 1rem;
+}
+
+/* Headings with gradient accent */
+h1, h2 {
+  background: linear-gradient(135deg, var(--ifm-color-primary) 0%, var(--ifm-color-secondary) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 800;
+}
+
+[data-theme='dark'] h1,
+[data-theme='dark'] h2 {
+  background: linear-gradient(135deg, var(--ifm-color-primary-lighter) 0%, var(--ifm-color-secondary-lighter) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Sidebar enhancements */
+.menu__link {
+  border-radius: 6px;
+  transition: all var(--ifm-transition-fast) ease-in-out;
+}
+
+.menu__link:hover {
+  background-color: rgba(62, 139, 255, 0.08);
+}
+
+.menu__link--active {
+  background: linear-gradient(90deg, rgba(62, 139, 255, 0.15) 0%, rgba(62, 139, 255, 0.05) 100%);
+  border-left: 3px solid var(--ifm-color-primary);
+  font-weight: 600;
+}
+
+/* Footer styling */
+.footer {
+  background: linear-gradient(180deg, var(--ifm-footer-background-color) 0%, #000000 100%);
+  border-top: 1px solid rgba(92, 159, 255, 0.2);
+}
+
+/* Pagination */
+.pagination-nav__link {
+  border: 1px solid var(--ifm-color-primary);
+  border-radius: 8px;
+  transition: all var(--ifm-transition-fast) ease-in-out;
+}
+
+.pagination-nav__link:hover {
+  background-color: rgba(62, 139, 255, 0.08);
+  transform: scale(1.02);
 }
