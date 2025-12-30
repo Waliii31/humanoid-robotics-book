@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mkdir -p backend/src)",
+      "Bash(find docs -name \"*.md\" -exec grep -l \"import\\\\|<RagChatbot\\\\|chatbot\" {} ;)",
+      "Bash(ls -la src/theme/*/)",
+      "Bash(npm start)",
+      "Bash(python -m uvicorn main:app --reload --port 8000)",
+      "Bash(pip install -r requirements.txt)"
+    ]
+  }
+}

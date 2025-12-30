@@ -1,0 +1,9 @@
+Testing RAG chatbot...
+--------------------------------------------------
+Query: What is this textbook about?
+--------------------------------------------------
+
+Response: I'm sorry, but the documentation database is currently empty. The vector store needs to be populated with documentation content first. Please run the ingestion pipeline to index the textbook content into Qdrant.
+
+Retrieved chunks: 0
+Tokens used: {'prompt_tokens': 0, 'completion_tokens': 0, 'total_tokens': 0}
