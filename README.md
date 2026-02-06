@@ -130,6 +130,47 @@ This command generates static content into the `build` directory and can be serv
 npm run typecheck
 ```
 
+## 🤖 RAG Chatbot Backend (Optional)
+
+The project includes an AI-powered Documentation Assistant powered by Retrieval-Augmented Generation (RAG).
+
+### Quick Start
+
+1. **Configure the backend** (see [backend/SETUP_GUIDE.md](backend/SETUP_GUIDE.md) for detailed instructions):
+   ```bash
+   cd backend
+   cp .env.example .env
+   # Edit .env with your API keys for Qdrant, Cohere, and Gemini
+   ```
+
+2. **Ingest documentation** (one-time setup):
+   ```bash
+   cd backend
+   npm install
+   npm run ingest
+   ```
+
+3. **Run the backend** (in a separate terminal):
+   ```bash
+   cd backend
+   npm run dev
+   ```
+
+4. **Run the frontend** (in another terminal):
+   ```bash
+   npm start
+   ```
+
+5. **Use the chatbot** - Look for the "Documentation Assistant" widget on the website
+
+### Required API Keys
+
+- **Qdrant** - Free cloud vector database (https://qdrant.tech/)
+- **Cohere** - Free embeddings API (https://cohere.com/)
+- **Gemini** - Free Google AI API (https://ai.google.dev/)
+
+See [backend/SETUP_GUIDE.md](backend/SETUP_GUIDE.md) for detailed setup instructions.
+
 ## 📖 Content Guidelines
 
 All chapters follow these requirements (see [CONSTITUTION.md](./CONSTITUTION.md) for details):

@@ -26,6 +26,7 @@ def get_openai_client():
     if not gemini_api_key:
         raise ValueError("GEMINI_API_KEY environment variable is not set")
 
+    # Only pass supported arguments to OpenAI client
     return OpenAI(
         api_key=gemini_api_key,
         base_url="https://generativelanguage.googleapis.com/v1beta/openai/"
@@ -33,7 +34,7 @@ def get_openai_client():
 
 def get_qdrant_client():
     """Create and return a Qdrant client"""
-    qdrant_url = os.getenv("QDRANT_URL", "https://0c4e4da0-0f58-46d4-a6ec-e7d68cd5e377.europe-west3-0.gcp.cloud.qdrant.io")
+    qdrant_url = os.getenv("QDRANT_URL")
     qdrant_api_key = os.getenv("QDRANT_API_KEY")
     if not qdrant_api_key:
         raise ValueError("QDRANT_API_KEY environment variable is required")
@@ -44,7 +45,7 @@ def get_qdrant_client():
         prefer_grpc=False
     )
 
-QDRANT_URL = os.getenv("QDRANT_URL", "https://0c4e4da0-0f58-46d4-a6ec-e7d68cd5e377.europe-west3-0.gcp.cloud.qdrant.io")
+QDRANT_URL = os.getenv("QDRANT_URL")
 QDRANT_API_KEY = os.getenv("QDRANT_API_KEY")
 QDRANT_COLLECTION_NAME = os.getenv("QDRANT_COLLECTION_NAME", "docusaurus_docs")
 
@@ -78,13 +79,20 @@ async def retrieve_chunks(query: str, top_k: int = 5) -> List[Dict[str, Any]]:
             logger.error(f"Collection '{QDRANT_COLLECTION_NAME}' does not exist: {str(collection_error)}")
             return []
         
-        # Generate embedding for the query using Gemini
-        client = get_openai_client()
-        response = client.embeddings.create(
-            input=query,
-            model="text-embedding-005"  # Using Google's embedding model compatible with Gemini API
+        # Generate embedding for the query using Cohere (same as ingestion pipeline)
+        import cohere
+        cohere_api_key = os.getenv("COHERE_API_KEY")
+        if not cohere_api_key:
+            logger.error("COHERE_API_KEY environment variable is not set")
+            return []
+        
+        co = cohere.Client(cohere_api_key)
+        embed_response = co.embed(
+            texts=[query],
+            model="embed-multilingual-v3.0",  # Same model as ingestion pipeline
+            input_type="search_query"  # Use search_query for queries
         )
-        query_embedding = response.data[0].embedding
+        query_embedding = embed_response.embeddings[0]
 
         # Search in Qdrant
         search_results = qdrant_client.search(

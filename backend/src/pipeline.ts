@@ -18,7 +18,7 @@ export class RAGPipeline {
   private embedder: Embedder;
   private vectorStore: VectorStore;
 
-  constructor(private config: PipelineConfig) {
+  constructor(config: PipelineConfig) {
     this.crawler = new WebCrawler(config.crawl);
     this.chunker = new DocumentChunker(config.chunking);
     this.embedder = new Embedder(config.embedding);

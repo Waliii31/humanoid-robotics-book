@@ -31,10 +31,25 @@ export class Embedder {
         inputType: 'search_document', // Optimal for document search
       });
 
+      // Handle embeddings - ensure it's an array
+      const embeddings = Array.isArray(response.embeddings)
+        ? response.embeddings as number[][]
+        : [];
+
       // Assign embeddings to chunks
       for (let j = 0; j < batch.length; j++) {
-        const chunk = { ...batch[j] };
-        chunk.embedding = response.embeddings[j] as number[];
+        const sourceChunk = batch[j];
+        if (!sourceChunk) continue;
+        const chunk: Chunk = {
+          id: sourceChunk.id,
+          content: sourceChunk.content,
+          url: sourceChunk.url,
+          heading: sourceChunk.heading,
+          chunkIndex: sourceChunk.chunkIndex,
+          metadata: sourceChunk.metadata,
+          embedding: embeddings[j] || [],
+          score: sourceChunk.score,
+        };
         results.push(chunk);
       }
     }
@@ -49,6 +64,14 @@ export class Embedder {
       inputType: 'search_query', // Optimal for search queries
     });
 
-    return response.embeddings[0] as number[];
+    // Handle embeddings - ensure it's an array
+    const embeddings = Array.isArray(response.embeddings)
+      ? response.embeddings as number[][]
+      : [];
+
+    if (embeddings.length === 0 || !embeddings[0]) {
+      throw new Error('No embeddings returned from Cohere API');
+    }
+    return embeddings[0];
   }
 }

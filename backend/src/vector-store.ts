@@ -137,6 +137,9 @@ export class VectorStore {
     }
 
     const record = records[0];
+    if (!record) {
+      return null;
+    }
     const payload = record.payload;
 
     return {
@@ -189,6 +192,6 @@ export class VectorStore {
 
   async countVectors(): Promise<number> {
     const collectionInfo = await this.client.getCollection(this.config.collectionName);
-    return collectionInfo.points_count;
+    return collectionInfo.points_count ?? 0;
   }
 }

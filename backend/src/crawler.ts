@@ -8,7 +8,7 @@ export class WebCrawler {
   private pendingUrls: string[] = [];
   private crawledPages: CrawledPage[] = [];
 
-  constructor(private config: CrawlConfig) {}
+  constructor(private config: CrawlConfig) { }
 
   async crawl(): Promise<CrawledPage[]> {
     // Initialize with the starting URLs
@@ -75,10 +75,11 @@ export class WebCrawler {
     const title = $('title').text() || url.split('/').pop() || 'Untitled';
 
     // Extract headings
-    const headings: Array<{level: number, text: string, id?: string}> = [];
+    const headings: Array<{ level: number, text: string, id?: string }> = [];
     $('h1, h2, h3, h4, h5, h6').each((_, element) => {
       const $el = $(element);
-      const level = parseInt($el[0].tagName.charAt(1));
+      const tagName = $el[0]?.tagName || 'h1';
+      const level = parseInt(tagName.charAt(1)) || 1;
       const text = $el.text().trim();
       const id = $el.attr('id') || undefined;
 
@@ -129,7 +130,6 @@ export class WebCrawler {
   }
 
   private getDepth(url: string): number {
-    const baseUrl = new URL(this.config.urls[0]);
     const pathParts = new URL(url).pathname.split('/').filter(Boolean);
     return pathParts.length;
   }

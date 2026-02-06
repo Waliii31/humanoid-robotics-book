@@ -40,7 +40,7 @@ app.add_middleware(
 
 # Configuration
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
-QDRANT_URL = os.getenv("QDRANT_URL", "https://0c4e4da0-0f58-46d4-a6ec-e7d68cd5e377.europe-west3-0.gcp.cloud.qdrant.io")
+QDRANT_URL = os.getenv("QDRANT_URL", "https://342068af-c20e-44cf-8ed8-13ecefbb7409.europe-west3-0.gcp.cloud.qdrant.io")
 QDRANT_API_KEY = os.getenv("QDRANT_API_KEY")
 QDRANT_COLLECTION_NAME = os.getenv("QDRANT_COLLECTION_NAME", "docusaurus_docs")
 
@@ -55,6 +55,7 @@ def get_openai_client():
 
     # Initialize the OpenAI client with the Gemini API configuration
     # Using the OpenAI-compatible endpoint for Gemini
+    # Only pass supported arguments to OpenAI client
     return OpenAI(
         api_key=gemini_api_key,
         base_url="https://generativelanguage.googleapis.com/v1beta/openai/"
@@ -62,8 +63,8 @@ def get_openai_client():
 
 def get_qdrant_client():
     """Create and return a Qdrant client"""
-    qdrant_url = os.getenv("QDRANT_URL", "https://0c4e4da0-0f58-46d4-a6ec-e7d68cd5e377.europe-west3-0.gcp.cloud.qdrant.io")
-    qdrant_api_key = os.getenv("QDRANT_API_KEY")
+    qdrant_url = os.getenv("QDRANT_URL", "https://342068af-c20e-44cf-8ed8-13ecefbb7409.europe-west3-0.gcp.cloud.qdrant.io")
+    qdrant_api_key = os.getenv("QDRANT_API_KEY", "your_default_api_key_here")  # Provide a default if necessary
     if not qdrant_api_key:
         raise ValueError("QDRANT_API_KEY environment variable is required")
 

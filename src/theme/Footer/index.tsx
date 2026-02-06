@@ -52,7 +52,7 @@ function Footer(): ReactNode {
                 </a>
               </li>
               <li>
-                <Link to="/docs/resources/hardware" className={styles.footerLink}>
+                <Link to="/docs/resources/hardware-requirements" className={styles.footerLink}>
                   🔧 Hardware Requirements
                 </Link>
               </li>

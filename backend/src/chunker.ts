@@ -3,7 +3,7 @@ import { Chunk, ChunkingConfig, CrawledPage } from './types';
 import { v4 as uuidv4 } from 'uuid';
 
 export class DocumentChunker {
-  constructor(private config: ChunkingConfig) {}
+  constructor(private config: ChunkingConfig) { }
 
   chunkPages(pages: CrawledPage[]): Chunk[] {
     const chunks: Chunk[] = [];
@@ -84,11 +84,13 @@ export class DocumentChunker {
                 if (chunks.length > 0 && this.config.overlapSize > 0) {
                   // Add overlap from the last chunk
                   const lastChunk = chunks[chunks.length - 1];
-                  const overlap = this.getOverlap(lastChunk.content, this.config.overlapSize);
-                  subChunks[0] = overlap + subChunks[0];
+                  if (lastChunk) {
+                    const overlap = this.getOverlap(lastChunk, this.config.overlapSize);
+                    subChunks[0] = overlap + (subChunks[0] || '');
+                  }
                 }
-                chunks.push(...subChunks.map(text => text));
-                currentChunk = subChunks[subChunks.length - 1];
+                chunks.push(...subChunks.filter((text): text is string => typeof text === 'string'));
+                currentChunk = subChunks[subChunks.length - 1] || '';
               }
             } else {
               // Add the current chunk to results
@@ -97,8 +99,12 @@ export class DocumentChunker {
               // Handle overlap
               if (chunks.length > 0 && this.config.overlapSize > 0) {
                 const lastChunk = chunks[chunks.length - 1];
-                const overlap = this.getOverlap(lastChunk, this.config.overlapSize);
-                currentChunk = overlap + part;
+                if (lastChunk) {
+                  const overlap = this.getOverlap(lastChunk, this.config.overlapSize);
+                  currentChunk = overlap + part;
+                } else {
+                  currentChunk = part;
+                }
               } else {
                 currentChunk = part;
               }
@@ -151,18 +157,26 @@ export class DocumentChunker {
     return text.slice(-overlapSize);
   }
 
-  private findRelevantHeading(chunkText: string, headingMap: Map<number, {level: number, text: string, id?: string}>, url: string): string | undefined {
+  private findRelevantHeading(_chunkText: string, _headingMap: Map<number, { level: number, text: string, id?: string }>, url: string): string | undefined {
     // Simple implementation: return the page title as the heading
     // In a real implementation, we would find the most relevant heading based on position
     return url.split('/').pop()?.replace(/-/g, ' ') || undefined;
   }
 
-  private createHeadingMap(headings: Array<{level: number, text: string, id?: string}>): Map<number, {level: number, text: string, id?: string}> {
-    const headingMap = new Map<number, {level: number, text: string, id?: string}>();
+  private createHeadingMap(headings?: Array<{ level: number, text: string, id?: string }>): Map<number, { level: number, text: string, id?: string }> {
+    const headingMap = new Map<number, { level: number, text: string, id?: string }>();
 
-    headings.forEach(heading => {
-      // For now, we'll map approximate positions in the content
-      // In a real implementation, we'd map based on actual positions
+    // Guard against missing or invalid headings
+    if (!headings || !Array.isArray(headings) || headings.length === 0) {
+      return headingMap;
+    }
+
+    // Map headings to simple numeric positions (index-based) so callers can
+    // look up nearest headings by index or use the map safely.
+    headings.forEach((heading, idx) => {
+      if (heading && typeof heading.text === 'string') {
+        headingMap.set(idx, { level: heading.level || 1, text: heading.text, id: heading.id });
+      }
     });
 
     return headingMap;

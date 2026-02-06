@@ -47,7 +47,7 @@ function HomepageHeader() {
         <div className={styles.heroButtons}>
           <Link
             className="button button--primary button--lg"
-            to="/docs/week01-02-physical-ai/intro">
+            to="/docs/week01-02-physical-ai/foundations-of-physical-ai">
             🚀 Quick Start - Week 1
           </Link>
           <Link

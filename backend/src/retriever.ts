@@ -26,7 +26,7 @@ export class SemanticRetriever {
   private vectorStore: VectorStore;
   private queryCache: Map<string, { results: Chunk[], timestamp: number, params: string }> = new Map();
 
-  constructor(private config: RetrievalConfig) {
+  constructor(config: RetrievalConfig) {
     this.embedder = new Embedder(config.embedding);
     this.vectorStore = new VectorStore(config.qdrant);
   }
@@ -236,7 +236,7 @@ export class SemanticRetriever {
    */
   async validateRetrievalQuality(
     validationQueries: Array<{ query: string; expectedUrls: string[]; expectedContent?: string[] }>,
-    threshold: number = 0.5
+    _threshold: number = 0.5
   ): Promise<{
     totalQueries: number;
     successfulRetrievals: number;
@@ -249,16 +249,22 @@ export class SemanticRetriever {
       success: boolean;
     }>;
   }> {
-    const results = {
-      totalQueries: validationQueries.length,
-      successfulRetrievals: 0,
-      detailedResults: [] as Array<{
+    const results: {
+      totalQueries: number;
+      successfulRetrievals: number;
+      accuracy: number;
+      detailedResults: Array<{
         query: string;
         expectedUrls: string[];
         retrievedUrls: string[];
         scores: number[];
         success: boolean;
-      }>,
+      }>;
+    } = {
+      totalQueries: validationQueries.length,
+      successfulRetrievals: 0,
+      accuracy: 0,
+      detailedResults: [],
     };
 
     for (const validationQuery of validationQueries) {
